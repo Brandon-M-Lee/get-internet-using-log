@@ -9,6 +9,7 @@ try:
     import chromedriver_autoinstaller
 except:
     os.system('pip3 install chromedriver-autoinstaller')
+    import chromedriver_autoinstallers
 
 import smtplib
 from email.mime.text import MIMEText
@@ -22,13 +23,14 @@ except:
     driver = webdriver.Chrome(f'./{chrome_ver}/chromedriver.exe')  
 
 driver.implicitly_wait(10)
+driver.get('https://www.google.com')
 
 def get_current_url():
     return driver.current_url
 
 def check_target_url(url):
     if url.find('dcinside') != -1:
-        idx = url.find('id=3')
+        idx = url.find('id=')
         if url[idx+3:idx+8] == 'hwhdg':
             return True
         else:
@@ -56,4 +58,4 @@ def alert():
         today = datetime.datetime.now()
         title = '타겟 사이트에 접속한 기록 추적'
         content = f'{today.strftime("%Y-%m-%d %H:%M:%S")}에 {current_url}에 접속하였습니다.'
-        send_email(smtp, 'dlalswo0626@naver.com', title, content)
+        send_email(smtp, 'gshsdctracker@gmail.com', title, content)
