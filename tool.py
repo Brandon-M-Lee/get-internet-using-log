@@ -45,17 +45,12 @@ def make_session():
     smtp.login('gshskndl.kr@gmail.com', 'ttwwpjwmgairztad')
     return smtp
 
-def send_email(smtp, email, title, content):
+def send_email(smtp, email):
+    today = datetime.datetime.now()
+    current_url = get_current_url()
+    title = '타겟 사이트에 접속한 기록 추적'
+    content = f'{today.strftime("%Y-%m-%d %H:%M:%S")}에 {current_url}에 접속하였습니다.'
     msg = MIMEText(content)
     msg['Subject'] = title
     msg['To'] = email
     smtp.sendmail('gshskndl.kr@gmail.com', email, msg.as_string())
-
-def alert():
-    current_url = get_current_url()
-    if check_target_url(current_url):
-        smtp = make_session()
-        today = datetime.datetime.now()
-        title = '타겟 사이트에 접속한 기록 추적'
-        content = f'{today.strftime("%Y-%m-%d %H:%M:%S")}에 {current_url}에 접속하였습니다.'
-        send_email(smtp, 'gshsdctracker@gmail.com', title, content)
